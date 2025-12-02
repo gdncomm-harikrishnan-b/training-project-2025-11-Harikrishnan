@@ -2,6 +2,7 @@ package com.blibi.product.controller;
 
 import com.blibi.product.dto.ProductDTO;
 import com.blibi.product.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +22,7 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductDTO savedProduct = productService.createProduct(productDTO);
         return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
     }
@@ -30,7 +31,7 @@ public class ProductController {
     public ResponseEntity<Page<ProductDTO>> getProductByName(
             @PathVariable String productName,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<ProductDTO> products = productService.viewProductDetailsByName(productName, pageable);
         return new ResponseEntity<>(products, HttpStatus.OK);
