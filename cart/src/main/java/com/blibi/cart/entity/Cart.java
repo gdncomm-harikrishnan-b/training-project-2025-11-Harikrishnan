@@ -24,7 +24,7 @@ import java.util.UUID;
  * @Data: Generates getters, setters, toString, equals, and hashCode
  * @Builder: Provides builder pattern for object creation
  * 
- * @author Cart Service Team
+ * @author HKB
  * @version 1.0
  */
 @Data

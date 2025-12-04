@@ -39,59 +39,16 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class ProductDTO implements Serializable {
-    
-    /**
-     * Unique identifier for the product.
-     * 
-     * This field is populated when retrieving existing products from the database.
-     * It's optional when creating new products (MongoDB will generate it).
-     */
-    private String productId;
 
-    /**
-     * Product name - required field with strict validation.
-     * 
-     * @NotBlank - Ensures the field is not null, not empty, and not just whitespace.
-     *            This is stricter than @NotNull, which only checks for null.
-     */
+    private String productId;
     @NotBlank(message = "Product name is required and cannot be blank")
     private String productName;
-
-    /**
-     * Product description providing detailed information.
-     * 
-     * @NotBlank - Ensures description is not null, empty, or whitespace-only
-     */
     @NotBlank(message = "Product description is required and cannot be blank")
     private String description;
-
-    /**
-     * Product price in the application's currency.
-     * 
-     * Must be a positive value greater than zero. The combination of @NotNull
-     * and @Positive ensures both presence and validity of the price.
-     * 
-     * @NotNull - Ensures price is not null
-     * @Positive - Ensures price is greater than zero
-     */
     @NotNull(message = "Price is required")
     @Positive(message = "Price must be greater than zero")
     private Double price;
-
-    /**
-     * Product category for classification and filtering.
-     * 
-     * @NotBlank - Ensures category is not null, empty, or whitespace-only
-     */
     @NotBlank(message = "Category is required and cannot be blank")
     private String category;
-
-    /**
-     * List of product image URLs.
-     * 
-     * Optional field allowing multiple images per product. Can be null or empty
-     * for products without images. Images are stored as URLs (strings) pointing
-     * to external storage or CDN.
-     */
     private List<String> images;
 }

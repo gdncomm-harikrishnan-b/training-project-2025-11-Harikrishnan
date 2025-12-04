@@ -1,6 +1,5 @@
 package com.blibi.cart.configuration;
 
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
@@ -20,16 +19,14 @@ import org.springframework.context.annotation.Configuration;
  * @Configuration: Marks this class as a Spring configuration class
  * @Bean: Registers OpenAPI bean in Spring context
  * 
- * Access Points:
- * - Swagger UI: http://localhost:8081/swagger-ui.html
- * - API Docs JSON: http://localhost:8081/v3/api-docs
- * 
- * @author Cart Service Team
- * @version 1.0
+ *        Access Points:
+ *        - Swagger UI: http://localhost:8081/swagger-ui.html
+ *        - API Docs JSON: http://localhost:8081/v3/api-docs
+ *
  */
 @Configuration
 public class OpenApiConfig {
-    
+
     /**
      * Creates and configures the OpenAPI bean for API documentation.
      * 

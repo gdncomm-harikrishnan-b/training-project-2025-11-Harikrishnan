@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.*;
  * 
  * Base URL: /api/product
  * 
- * @RestController - Marks this class as a REST controller, automatically serializes
- *                  return values to JSON/XML
- * @RequestMapping - Maps all methods in this controller to /api/product base path
+ * @RestController - Marks this class as a REST controller, automatically
+ *                 serializes
+ *                 return values to JSON/XML
+ * @RequestMapping - Maps all methods in this controller to /api/product base
+ *                 path
  * @Slf4j - Provides logger instance via Lombok
  * 
  * @author HKB
@@ -32,7 +34,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
-    
+
     /**
      * Service layer dependency for business logic operations.
      * Injected via constructor for better testability and immutability.
@@ -50,13 +52,15 @@ public class ProductController {
 
     /**
      * Creates a new product in the system.
-     * 
-     * This endpoint accepts a ProductDTO, validates it, and persists it to the database.
+     * This endpoint accepts a ProductDTO, validates it, and persists it to the
+     * database.
      * The @Valid annotation triggers Jakarta Bean Validation to ensure all required
      * fields are present and valid before processing.
      * 
-     * @param productDTO The product data transfer object containing product information
-     * @return ResponseEntity containing the created product wrapped in GenericResponse
+     * @param productDTO The product data transfer object containing product
+     *                   information
+     * @return ResponseEntity containing the created product wrapped in
+     *         GenericResponse
      *         with HTTP 201 (CREATED) status
      * 
      * @PostMapping - Maps HTTP POST requests to this method
@@ -79,9 +83,10 @@ public class ProductController {
      * with the specified name. Results are paginated for efficient data retrieval.
      * 
      * @param productName The exact product name to search for (case-sensitive)
-     * @param page Page number (0-indexed, default: 0)
-     * @param size Number of items per page (default: 5)
-     * @return ResponseEntity containing a paginated list of products with HTTP 200 (OK) status
+     * @param page        Page number (0-indexed, default: 0)
+     * @param size        Number of items per page (default: 5)
+     * @return ResponseEntity containing a paginated list of products with HTTP 200
+     *         (OK) status
      * 
      * @GetMapping - Maps HTTP GET requests to this method
      * @PathVariable - Extracts productName from the URL path
@@ -109,9 +114,10 @@ public class ProductController {
      * "Laptop", "LAPTOP", etc.
      * 
      * @param productName The product name pattern to search for (case-insensitive)
-     * @param page Page number (0-indexed, default: 0)
-     * @param size Number of items per page (default: 5)
-     * @return ResponseEntity containing a paginated list of matching products with HTTP 200 (OK) status
+     * @param page        Page number (0-indexed, default: 0)
+     * @param size        Number of items per page (default: 5)
+     * @return ResponseEntity containing a paginated list of matching products with
+     *         HTTP 200 (OK) status
      * 
      * @PostMapping - Maps HTTP POST requests (used for search operations)
      * @PathVariable - Extracts productName from the URL path
@@ -138,9 +144,10 @@ public class ProductController {
      * partial category name matches.
      * 
      * @param category The category name to search for (case-insensitive)
-     * @param page Page number (0-indexed, default: 0)
-     * @param size Number of items per page (default: 5)
-     * @return ResponseEntity containing a paginated list of products in the category with HTTP 200 (OK) status
+     * @param page     Page number (0-indexed, default: 0)
+     * @param size     Number of items per page (default: 5)
+     * @return ResponseEntity containing a paginated list of products in the
+     *         category with HTTP 200 (OK) status
      * 
      * @GetMapping - Maps HTTP GET requests to this method
      * @PathVariable - Extracts category from the URL path
@@ -161,14 +168,15 @@ public class ProductController {
     }
 
     /**
-     * Retrieves a single product by its unique identifier.
+     * Retrieves a single product by its business product identifier.
      * 
      * This endpoint fetches detailed information about a specific product
-     * using its MongoDB-generated ID. If the product is not found, the service
-     * layer will throw a RuntimeException.
+     * using its business productId (e.g., MTA-000001), not the MongoDB _id.
+     * If the product is not found, the service layer will throw a RuntimeException.
      * 
-     * @param id The unique product identifier (MongoDB ObjectId as String)
-     * @return ResponseEntity containing the product details wrapped in GenericResponse
+     * @param id The business product identifier (e.g., MTA-000001)
+     * @return ResponseEntity containing the product details wrapped in
+     *         GenericResponse
      *         with HTTP 200 (OK) status
      * 
      * @GetMapping - Maps HTTP GET requests to this method

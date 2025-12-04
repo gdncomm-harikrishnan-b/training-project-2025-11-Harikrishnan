@@ -20,7 +20,7 @@ public class JwtUtil {
     public String generateToken(String username) {
         return Jwts.builder()
                 .subject(username)
-                .issuer("gateway-service")
+                .issuer("api-gateway")
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 86400000)) // 24 hrs
                 .signWith(key)

@@ -51,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
         log.info("Login Request:{}", request.getUserName());
         Member member = memberRepository.findByUserName(request.getUserName())
                 .orElseThrow(() -> new MemberNotFoundException("User not found"));
-        if (passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new RuntimeException("Wrong Creds");
         }
         return MemberResponse.builder()

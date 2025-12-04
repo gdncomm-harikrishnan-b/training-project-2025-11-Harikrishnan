@@ -1,5 +1,6 @@
 package com.blibi.cart.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 /**
@@ -31,10 +32,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Builder
 @Data
+@Schema(description = "Generic API response wrapper")
 public class GenericResponse<T> {
-    
+
     /**
      * Status of the operation.
      * 
@@ -42,7 +43,7 @@ public class GenericResponse<T> {
      * Used by clients to quickly determine if the operation succeeded.
      */
     private String status;
-    
+
     /**
      * Descriptive message about the operation result.
      * 
@@ -50,7 +51,7 @@ public class GenericResponse<T> {
      * such as "Item added to cart" or "Cart not found".
      */
     private String message;
-    
+
     /**
      * The actual response data.
      * 
@@ -59,4 +60,46 @@ public class GenericResponse<T> {
      * Can be null in error cases.
      */
     private T data;
+
+    /**
+     * Manual builder to avoid Lombok @Builder StackOverflowError with Swagger.
+     * 
+     * @param <T> The type of data being wrapped
+     * @return A new GenericResponseBuilder instance
+     */
+    @io.swagger.v3.oas.annotations.Hidden
+    public static <T> GenericResponseBuilder<T> builder() {
+        return new GenericResponseBuilder<T>();
+    }
+
+    /**
+     * Builder class for GenericResponse.
+     * 
+     * @param <T> The type of data being wrapped
+     */
+    @Schema(hidden = true)
+    public static class GenericResponseBuilder<T> {
+        private String status;
+        private String message;
+        private T data;
+
+        public GenericResponseBuilder<T> status(String status) {
+            this.status = status;
+            return this;
+        }
+
+        public GenericResponseBuilder<T> message(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public GenericResponseBuilder<T> data(T data) {
+            this.data = data;
+            return this;
+        }
+
+        public GenericResponse<T> build() {
+            return new GenericResponse<T>(status, message, data);
+        }
+    }
 }

@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author Cart Service Team
  * @version 1.0
  */
-@FeignClient(name = "product", url = "http://localhost:8080")
+@FeignClient(name = "product", url = "http://localhost:8081")
 public interface ProductFeignClient {
 
     /**
