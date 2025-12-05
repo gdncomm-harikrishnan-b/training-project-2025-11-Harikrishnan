@@ -12,70 +12,24 @@ import org.springframework.stereotype.Service;
 import static com.blibi.product.utils.CommonUtils.getProductDTO;
 import static com.blibi.product.utils.CommonUtils.getProductFromDTO;
 
-/**
- * Service implementation for Product business logic operations.
- * 
- * This class implements the ProductService interface and contains the core
- * business
- * logic for product management. It acts as an intermediary between the
- * controller
- * and repository layers, handling data transformation and business rules.
- * 
- * Key responsibilities:
- * - Converting between DTO and Entity objects
- * - Executing business logic and validation
- * - Handling exceptions and logging
- * - Coordinating with the repository layer for data persistence
- * 
- * @Service - Marks this class as a Spring service component, making it eligible
- *          for component scanning and dependency injection
- * @Slf4j - Provides logger instance via Lombok for logging operations
- * 
- * @author HKB
- */
 @Slf4j
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    /**
-     * Repository dependency for data access operations.
-     * Injected via constructor for better testability and immutability.
-     */
     private final ProductRepository productRepository;
 
-    /**
-     * Constructor-based dependency injection.
-     *
-     * @param productRepository The product repository for database operations
-     */
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    /**
-     * Creates a new product in the system.
-     * 
-     * This method performs the following operations:
-     * 1. Converts ProductDTO to Product entity using utility method
-     * 2. Persists the entity to MongoDB via repository
-     * 3. Converts the saved entity back to DTO for response
-     * 4. Handles exceptions and logs errors for debugging
-     * 
-     * @param productDTO The product data transfer object containing product
-     *                   information
-     * @return ProductDTO representing the created product with MongoDB-generated ID
-     * @throws Exception if product creation fails (e.g., database connection
-     *                   issues)
-     */
+   // Product Creation Logic
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
-        // Log the creation attempt for monitoring and debugging
         log.info("Creating new product: {}", productDTO.getProductName());
 
         try {
             // Convert DTO to Entity for persistence
-            // This separation allows us to have different validation rules for DTO vs
-            // Entity
+            // This separation allows us to have different validation rules for DTO vs Entity
             Product productEntity = getProductFromDTO(productDTO);
 
             // Save to MongoDB - MongoDB will auto-generate the productId if not provided
@@ -93,11 +47,9 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    /**
-     * Retrieves products by exact product name match.
-     * This method performs a case-sensitive exact match search. It's useful when
-     * you know the exact product name and want precise results.
-     */
+
+     // Retrieves products by exact product name match.
+
     @Override
     public Page<ProductDTO> viewProductDetailsByName(String productName, Pageable pageable) {
         // Log the search operation with pagination details
@@ -115,12 +67,8 @@ public class ProductServiceImpl implements ProductService {
         return products.map(product -> getProductDTO(product));
     }
 
-    /**
-     * Searches products by name using case-insensitive partial matching.
-     * This method performs a wildcard search using MongoDB regex, allowing users
-     * to find products with partial name matches. The search is case-insensitive,
-     * making it more user-friendly.
-     */
+    //  Searches products by name using case-insensitive partial matching.
+
     @Override
     public Page<ProductDTO> searchProductByName(String productName, Pageable pageable) {
         // Log the search operation with pagination details
@@ -136,35 +84,22 @@ public class ProductServiceImpl implements ProductService {
         return products.map(product -> getProductDTO(product));
     }
 
-    /**
-     * Retrieves a single product by its business product identifier.
-     * This method fetches a product using its business productId (e.g.,
-     * MTA-000001),
-     * not the MongoDB _id. If the product doesn't exist, it throws a
-     * RuntimeException
-     * which should be caught by a global exception handler (recommended
-     * improvement).
-     */
+
+     // This method fetches a product using its business productId (e.g.MTA-000001)
+
     @Override
     public ProductDTO getProductDetail(String productId) {
         // Log the retrieval attempt
         log.info("Fetching product details for productId: {}", productId);
 
-        // Find product by business productId - returns Optional<Product>
-        // orElseThrow() converts Optional to Product or throws exception if not found
+
         Product product = productRepository.findByProductId(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found with productId: " + productId));
-        // Convert Entity to DTO for response
         return getProductDTO(product);
     }
 
-    /**
-     * Searches products by category using case-insensitive partial matching.
-     *
-     * This method retrieves all products belonging to a specific category using
-     * MongoDB regex for flexible matching. Useful for browsing products by
-     * category.
-     */
+    //  Searches products by category using case-insensitive partial matching.
+
     @Override
     public Page<ProductDTO> searchProductByCategory(String category, Pageable pageable) {
         // Log the category search operation with pagination details
