@@ -80,6 +80,7 @@ public class AuthServiceImpl implements AuthService {
 
                     // Generate JWT token with additional claims
                     Map<String, Object> claims = new HashMap<>();
+                    claims.put("userId", memberData.getUserId().toString());
                     claims.put("email", memberData.getEmail());
                     claims.put("active", memberData.isActive());
 

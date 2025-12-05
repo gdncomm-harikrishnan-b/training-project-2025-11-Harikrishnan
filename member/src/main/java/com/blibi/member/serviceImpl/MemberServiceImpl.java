@@ -1,4 +1,5 @@
 package com.blibi.member.serviceImpl;
+
 import com.blibi.member.dto.MemberLoginRequest;
 import com.blibi.member.dto.MemberRegisterRequest;
 import com.blibi.member.dto.MemberResponse;
@@ -18,8 +19,9 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
     public MemberServiceImpl(MemberRepository memberRepository,
-                             PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -40,6 +42,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         return MemberResponse.builder()
+                .userId(member.getId())
                 .userName(member.getUserName())
                 .email(member.getEmail())
                 .active(true)
@@ -55,11 +58,10 @@ public class MemberServiceImpl implements MemberService {
             throw new RuntimeException("Wrong Creds");
         }
         return MemberResponse.builder()
+                .userId(member.getId())
                 .userName(member.getUserName())
                 .email(member.getEmail())
                 .active(true)
                 .build();
     }
 }
-
-
