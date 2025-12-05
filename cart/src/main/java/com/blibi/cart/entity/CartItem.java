@@ -36,7 +36,6 @@ public class CartItem {
      * The actual product details are fetched from Product Service when needed.
      */
     private String productId;
-    
     /**
      * Quantity of the product in the cart.
      * 
