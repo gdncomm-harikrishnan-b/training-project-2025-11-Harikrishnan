@@ -5,6 +5,7 @@ import com.blibi.product.entity.Product;
 import com.blibi.product.repository.ProductRepository;
 import com.blibi.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -47,10 +48,10 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-
      // Retrieves products by exact product name match.
 
     @Override
+    @Cacheable(value = "Product Name", key = "#productName")
     public Page<ProductDTO> viewProductDetailsByName(String productName, Pageable pageable) {
         // Log the search operation with pagination details
         log.info("Fetching product details by name: {} (page: {}, size: {})",
@@ -76,14 +77,11 @@ public class ProductServiceImpl implements ProductService {
                 productName, pageable.getPageNumber(), pageable.getPageSize());
         // Query repository for case-insensitive partial match using MongoDB regex
         Page<Product> products = productRepository.searchProductByName(productName, pageable);
-
         // Log debug information about search results
         log.debug("Search found {} products matching: {}", products.getTotalElements(), productName);
-
         // Convert each Product entity to ProductDTO
         return products.map(product -> getProductDTO(product));
     }
-
 
      // This method fetches a product using its business productId (e.g.MTA-000001)
 
@@ -91,8 +89,6 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO getProductDetail(String productId) {
         // Log the retrieval attempt
         log.info("Fetching product details for productId: {}", productId);
-
-
         Product product = productRepository.findByProductId(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found with productId: " + productId));
         return getProductDTO(product);
@@ -101,11 +97,11 @@ public class ProductServiceImpl implements ProductService {
     //  Searches products by category using case-insensitive partial matching.
 
     @Override
+
     public Page<ProductDTO> searchProductByCategory(String category, Pageable pageable) {
         // Log the category search operation with pagination details
         log.info("Searching products by category: {} (page: {}, size: {})",
                 category, pageable.getPageNumber(), pageable.getPageSize());
-
         // Query repository for case-insensitive category match using MongoDB regex
         Page<Product> products = productRepository.searchProductByCategory(category, pageable);
 

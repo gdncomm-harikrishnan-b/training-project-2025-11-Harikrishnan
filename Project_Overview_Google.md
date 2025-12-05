@@ -40,7 +40,7 @@ The Online Marketplace Platform is a microservices-based e-commerce system built
 
 ```mermaid
 graph TB
-    Client[Client Application<br/>Web/Mobile]
+    Client[Client Application<br/>Postman]
     
     subgraph "API Gateway Layer - Port 8080"
         Gateway[API Gateway<br/>Spring Cloud Gateway]
