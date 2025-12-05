@@ -1,5 +1,4 @@
 package com.blibi.apigateway.filter;
-
 import com.blibi.apigateway.configuration.JwtProperties;
 import com.blibi.apigateway.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
