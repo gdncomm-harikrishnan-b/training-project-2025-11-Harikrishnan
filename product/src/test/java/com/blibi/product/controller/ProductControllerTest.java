@@ -93,6 +93,7 @@ class ProductControllerTest {
 
                 verify(productService, never()).createProduct(any(ProductDTO.class));
         }
+// ----- Product Creation with invalid Price and return 400
 
         @Test
         @DisplayName("createProduct - Invalid Price - Returns 400 Bad Request")

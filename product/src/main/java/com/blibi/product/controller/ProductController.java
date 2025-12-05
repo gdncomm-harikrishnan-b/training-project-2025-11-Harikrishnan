@@ -57,7 +57,6 @@ public class ProductController {
 
     /**
      * Searches products by name using case-insensitive partial matching.
-     * 
      * This endpoint performs a wildcard search using MongoDB regex, allowing
      * partial matches. The search is case-insensitive, so "laptop" will match
      * "Laptop", "LAPTOP", etc.

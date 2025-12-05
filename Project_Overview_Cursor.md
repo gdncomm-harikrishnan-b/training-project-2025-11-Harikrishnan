@@ -40,7 +40,7 @@ The Online Marketplace Application is a microservices-based e-commerce platform 
 ```mermaid
 graph TB
     subgraph "Client Layer"
-        Client[Web/Mobile Client]
+        Client[Postman]
     end
     
     subgraph "API Gateway Layer"
